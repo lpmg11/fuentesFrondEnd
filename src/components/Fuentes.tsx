@@ -8,22 +8,27 @@ class Fuente extends React.Component<any,any> {
     description: '',
     _id: this.props._id,
     repository: "",
+    mostrarItems: false
   };
   mostrarInformacionDeFuente(){
-    if (this.state.description !== '') {
-      return this.setState({repository: '', description: ''});
+    if (this.state.mostrarItems) {
+      return this.setState({mostrarItems: false});
     }
-    axios.get('http://localhost:3001/fuentes/'+this.state._id)
+    if(this.state.description === ''){
+      axios.get('http://localhost:3001/fuentes/'+this.state._id)
       .then(res => {
-        this.setState({ name: res.data.name, description: res.data.description, repository: res.data.repository });
+        this.setState({ name: res.data.name, description: res.data.description, repository: res.data.repository, mostrarItems: true});
       })
+      return
+    }
+    return this.setState({mostrarItems: true});
   }
   render() {
     return (
       <div className="Fuente" onClick={()=>{this.mostrarInformacionDeFuente()}}>
       <h1>{this.state.name}</h1>
-      <p>{this.state.description}</p>
-      <p>{this.state.repository}</p>
+      <p style={{display: this.state.mostrarItems ? 'block' : 'none' }} >{this.state.description}</p>
+      <p style={{display: this.state.mostrarItems ? 'block' : 'none' }} >{this.state.repository}</p>
     </div>
     );
   }

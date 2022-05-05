@@ -18,7 +18,6 @@ class Index extends React.Component {
   }
   render() {
     return (
-      console.log (this.state.elements),
       <div className="App">
         <Header tittle="Control de Fuentes"/>
         <Cards elements={this.state.elements}/>
